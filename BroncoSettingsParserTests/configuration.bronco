@@ -1,2 +1,13 @@
-﻿<<<Begin:Setting)>>>
+﻿<<<Begin:Setting:Setting 1)>>>
+
+	/* The first setting */
+	I am value!
+
+<<<End:Setting)>>>
+<<<Begin:Setting:The Second Setting)>>>
+
+	/* The 2:nd setting */
+	I am also
+	value.
+
 <<<End:Setting)>>>

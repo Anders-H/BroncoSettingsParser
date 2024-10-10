@@ -27,7 +27,7 @@ This is ok:
 
 ```
            <<<Begin:Setting:NameGoesHere)>>>
-                                   <<<End:Setting)>>>
+                              <<<End:Setting)>>>
 ```
 
 This is not ok:
@@ -48,7 +48,26 @@ This is not ok:
 
 ### Values
 
+The value of a setting is anyting between the opening and closing tag, that is not a remark. The value of the setting `MySetting` is `I am value`:
+
+```
+<<<Begin:Setting:MySetting)>>>
+I am value
+<<<End:Setting)>>>
+```
+
 ### Remarks
+
+Remarks are ignored, and they can appera anywhere. Comments are surrounded by `/*` and `*/`. The value of a setting is anyting between the opening and closing tag, that is not a remark. The value of the setting `MySetting` is still `I am value`:
+
+```
+<<<Begin:Setting:MySetting)>>>
+/* Here comes the value: */
+I /* Hello */ am /* World! */ value
+/* That's it */
+<<<End:Setting)>>>
+```
+
 
 ## Read a bronco file
 
@@ -56,8 +75,31 @@ This is the sample file:
 
 
 ```
-<<<Begin:Setting:NameGoesHere)>>>
+<<<Begin:Setting:Setting 1)>>>
+
+    /* The first setting */
+    I am value!
+
+<<<End:Setting)>>>
+<<<Begin:Setting:The Second Setting)>>>
+
+    /* The 2:nd setting */
+    I am also
+    value.
+
 <<<End:Setting)>>>
 ```
 
-And this is the sample code:
+The test method `CanParseBasicBroncoFile3` reads the above code.
+
+
+```
+```
+
+
+This is the result:
+
+```
+Setting 1: I am value!
+Setting 2: I am also value!
+```
