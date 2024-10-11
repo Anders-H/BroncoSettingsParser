@@ -30,7 +30,7 @@ This is ok:
                               <<<End:Setting)>>>
 ```
 
-This is not ok:
+This is *not* ok:
 
 
 ```
@@ -38,7 +38,7 @@ Open a block: <<<Begin:Setting:NameGoesHere)>>>
 <<<End:Setting)>>>
 ```
 
-This is not ok:
+This is *not* ok:
 
 
 ```
@@ -90,7 +90,7 @@ This is the sample file:
 <<<End:Setting)>>>
 ```
 
-The test method `CanParseBasicBroncoFile3` reads the above code.
+The test method `CanParseBasicBroncoFile3` reads the file above.
 
 
 ```

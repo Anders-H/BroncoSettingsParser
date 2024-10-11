@@ -4,6 +4,12 @@ namespace BroncoSettingsParserTests;
 public class ParserTests
 {
     [TestMethod]
+    public void DetectIncorrectBroncoFiles()
+    {
+
+    }
+
+    [TestMethod]
     public void CanParseBasicBroncoFile1()
     {
         const string source = @"<<<Begin:Setting:MySetting)>>>
