@@ -6,6 +6,8 @@ public class SettingCollection
 
     public SettingCollection()
     {
-
+        _settings = new Dictionary<string, string>();
     }
+
+
 }
