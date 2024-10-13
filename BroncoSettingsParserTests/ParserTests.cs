@@ -1,3 +1,5 @@
+using ProncoSettingsParser;
+
 namespace BroncoSettingsParserTests;
 
 [TestClass]
@@ -6,7 +8,13 @@ public class ParserTests
     [TestMethod]
     public void DetectIncorrectBroncoFiles()
     {
-
+        const string source1 = @"<<<Begin:Setting:MySetting)>>>
+I am value
+<<<End:Setting)>>> no";
+        const string source2 = @"<<<Begin:Setting:MySetting)>>>
+I am value
+<<<End:Setting)>>> no";
+        var parser = new Parser(source1);
     }
 
     [TestMethod]
