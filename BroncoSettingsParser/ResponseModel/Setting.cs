@@ -2,7 +2,7 @@
 
 public class Setting
 {
-    public Setting(string name, string value)
+    internal Setting(string name, string value)
     {
         Name = name;
         Value = value;

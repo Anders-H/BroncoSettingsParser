@@ -1,6 +1,6 @@
 # Bronco Settings Parser
 
-A self-documenting settings parser that reads .bronco files and returns values ​​to your program.
+A self-documenting settings parser that reads `.bronco` files and returns values ​​to your program.
 
 ![Bronco logo](https://raw.githubusercontent.com/Anders-H/BroncoSettingsParser/refs/heads/main/bronco.jpg)
 
@@ -107,7 +107,8 @@ And this is a remark, even without /* and /*.
 
 ## Limitations
 
-Escape sequences are not supported. Therefore a a name or a value of a setting cannot contain `<<<`, `>>>`, `/*` or `*/`.
+* Escape sequences are not supported. Therefore a a name or a value of a setting cannot contain `<<<`, `>>>`, `/*` or `*/`.
+* Opening tags (`<<<Begin:Setting:Example setting>>>`) and closing tags (`<<<End:Setting>>>`) must stand alone on a row in the settings file.
 
 
 ## Read a bronco file

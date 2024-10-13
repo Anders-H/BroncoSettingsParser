@@ -1,10 +1,15 @@
 ﻿using BroncoSettingsParser.ResponseModel;
 
-namespace ProncoSettingsParser;
+namespace BroncoSettingsParser;
 
 public class Parser
 {
-    private readonly string _source;
+    private string _source;
+    private List<string> _rows;
+
+    public Parser() : this("")
+    {
+    }
 
     public Parser(string source)
     {
@@ -13,6 +18,6 @@ public class Parser
 
     public ParseResult Parse()
     {
-
+        var rows = _source.Split([Environment.NewLine], StringSplitOptions.RemoveEmptyEntries);
     }
 }

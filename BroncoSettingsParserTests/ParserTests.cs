@@ -1,4 +1,5 @@
-using ProncoSettingsParser;
+using BroncoSettingsParser;
+using BroncoSettingsParser.ResponseModel;
 
 namespace BroncoSettingsParserTests;
 
@@ -11,10 +12,44 @@ public class ParserTests
         const string source1 = @"<<<Begin:Setting:MySetting)>>>
 I am value
 <<<End:Setting)>>> no";
-        const string source2 = @"<<<Begin:Setting:MySetting)>>>
+        const string source2 = @"no <<<Begin:Setting:MySetting)>>>
 I am value
-<<<End:Setting)>>> no";
+<<<End:Setting)>>>";
+        const string source3 = @"<<<Begin:Setting:MySetting)>>>
+I am value
+no <<<End:Setting)>>>";
+        const string source4 = @"<<<Begin:Setting:MySetting)>>> no
+I am value
+<<<End:Setting)>>>";
+
+        const string source5 = @"    /* yes */     <<<Begin:Setting:MySetting)>>>        /* yes */         
+I am value
+                         /* yes */           <<<End:Setting)>>>          /* yes */                 ";
+
         var parser = new Parser(source1);
+        var response = parser.Parse();
+        Assert.AreEqual(Status.Failed, response.Status);
+        Assert.AreEqual("Data after closing tag is not allowed.", response.Message);
+
+        parser = new Parser(source2);
+        response = parser.Parse();
+        Assert.AreEqual(Status.Failed, response.Status);
+        Assert.AreEqual("Data before opening tag is not allowed.", response.Message);
+
+        parser = new Parser(source3);
+        response = parser.Parse();
+        Assert.AreEqual(Status.Failed, response.Status);
+        Assert.AreEqual("Data before closing tag is not allowed.", response.Message);
+
+        parser = new Parser(source4);
+        response = parser.Parse();
+        Assert.AreEqual(Status.Failed, response.Status);
+        Assert.AreEqual("Data after opening tag is not allowed.", response.Message);
+
+        parser = new Parser(source5);
+        response = parser.Parse();
+        Assert.AreEqual(Status.Success, response.Status);
+        Assert.AreEqual("", response.Message);
     }
 
     [TestMethod]
