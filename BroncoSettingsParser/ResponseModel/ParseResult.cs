@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BroncoSettingsParser.ResponseModel;
+﻿namespace BroncoSettingsParser.ResponseModel;
 
 public class ParseResult
 {
+    public Status Status { get; }
+    public string Message { get; }
+    public SettingCollection Settings { get; }
 }

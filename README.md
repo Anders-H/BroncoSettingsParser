@@ -2,6 +2,8 @@
 
 A self-documenting settings parser that reads .bronco files and returns values ​​to your program.
 
+![Bronco logo](https://raw.githubusercontent.com/Anders-H/BroncoSettingsParser/refs/heads/main/bronco.jpg)
+
 ## Load a configuration file
 
 This code loads settings from a string constant:
@@ -75,7 +77,7 @@ I am value
 <<<End:Setting>>>
 ```
 
-Whitespaces are not preserved in values. Whitespaces in values are treated in a smular way that it is treated in HTML - the occurrencee of any whitespace represents a whitespace. A whitespace in a value can be *space*, *tab* or *carriage return/line feed*.
+Whitespaces are not preserved in values. Whitespaces in values are treated in a smular way that it is treated in HTML - the occurrence of any whitespace represents a whitespace. A whitespace in a value can be *space*, *tab* or *carriage return/line feed*.
 
 ### Remarks
 
