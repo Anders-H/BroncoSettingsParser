@@ -18,6 +18,17 @@ public class Parser
 
     public ParseResult Parse()
     {
-        var rows = _source.Split([Environment.NewLine], StringSplitOptions.RemoveEmptyEntries);
+        _rows = _source.Split([Environment.NewLine], StringSplitOptions.RemoveEmptyEntries).ToList();
+        var status = Status.Failed;
+        var message = "";
+        var settings = new SettingCollection();
+        Setting? currentSetting = null;
+
+        foreach (var row in _rows)
+        {
+            
+        }
+
+        return new ParseResult(status, message, settings);
     }
 }
