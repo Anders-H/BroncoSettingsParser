@@ -36,7 +36,7 @@ other text in them. This is ok:
 
 
 ```
-<<<Begin:Setting:NameGoesHere>>>
+<<<Begin:Setting:Name goes here>>>
 <<<End:Setting>>>
 ```
 
@@ -44,7 +44,7 @@ This is ok:
 
 
 ```
-           <<<Begin:Setting:NameGoesHere>>>
+           <<<Begin:Setting:Name goes here>>>
                               <<<End:Setting>>>
 ```
 
@@ -52,7 +52,7 @@ This is *not* ok:
 
 
 ```
-Open a block: <<<Begin:Setting:NameGoesHere>>>
+Open a block: <<<Begin:Setting:Name goes here>>>
 <<<End:Setting>>>
 ```
 
@@ -60,7 +60,7 @@ This is *not* ok:
 
 
 ```
-<<<Begin:Setting:NameGoesHere>>>
+<<<Begin:Setting:Name goes here>>>
 <<<End:Setting>>> I have closed a block!
 ```
 

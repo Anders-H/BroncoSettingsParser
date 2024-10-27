@@ -9,5 +9,6 @@ public class SettingCollection
         _settings = new Dictionary<string, string>();
     }
 
-
+    public int Count =>
+        _settings.Count;
 }
