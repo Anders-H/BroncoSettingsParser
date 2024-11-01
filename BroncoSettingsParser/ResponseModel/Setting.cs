@@ -9,5 +9,5 @@ public class Setting
     }
 
     public string Name { get; }
-    public string Value { get; }
+    public string Value { get; internal set; }
 }

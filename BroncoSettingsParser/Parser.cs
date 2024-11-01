@@ -6,8 +6,8 @@ namespace BroncoSettingsParser;
 
 public class Parser
 {
-    private string _source;
-    private List<string> _rows;
+    private readonly string _source;
+    private List<string>? _rows;
 
     public Parser(FileInfo sourceFile)
     {
@@ -33,8 +33,9 @@ public class Parser
             if (string.IsNullOrWhiteSpace(trimmed))
                 continue;
 
-            var regex = new Regex(@"\s+");
-            trimmed = regex.Replace(trimmed, " ").Trim();
+            trimmed = RemoveComments(trimmed);
+            var trimRegex = new Regex(@"\s+");
+            trimmed = trimRegex.Replace(trimmed, " ").Trim();
 
             if (string.IsNullOrWhiteSpace(trimmed))
                 continue;
@@ -51,27 +52,46 @@ public class Parser
                         return new ParseResult(Status.Failed, "Missing setting name.", settings);
 
                     currentSetting = new Setting(settingName, "");
+                    currentValue.Clear();
                 }
                 else
                 {
                     beginSetting = Regex.Match(trimmed, "^<<<.*>>>");
 
                     if (beginSetting.Success)
-                        return new ParseResult(Status.Failed, "Data after closing tag is not allowed.", settings);
+                        return new ParseResult(Status.Failed, "Data after opening tag is not allowed.", settings);
 
                     beginSetting = Regex.Match(trimmed, "<<<.*>>>");
 
                     if (beginSetting.Success)
                         return new ParseResult(Status.Failed, "Data before opening tag is not allowed.", settings);
-
                 }
             }
             else
             {
-                currentValue.Append() // TA BORT KOMMENTARER MED: \/\*.*\*\/
-            }
+                if (row == "<<<End:Setting>>>")
+                {
+                    var value = trimRegex.Replace(currentValue.ToString(), " ").Trim();
+                    currentSetting.Value = value;
+                    settings.Set(currentSetting);
+                    currentSetting = null;
+                    currentValue.Clear();
+                }
+                else
+                {
+                    var endSetting = Regex.Match(trimmed, "^<<<.*>>>");
 
-            
+                    if (endSetting.Success)
+                        return new ParseResult(Status.Failed, "Data after closing tag is not allowed.", settings);
+
+                    endSetting = Regex.Match(trimmed, "<<<.*>>>");
+
+                    if (endSetting.Success)
+                        return new ParseResult(Status.Failed, "Data before closing tag is not allowed.", settings);
+
+                    currentValue.Append($"{trimmed} ");
+                }
+            }
         }
 
         var status = settings.Count > 0 ? Status.Success : Status.NoData;

@@ -9,22 +9,22 @@ public class ParserTests
     [TestMethod]
     public void DetectIncorrectBroncoFiles()
     {
-        const string source1 = @"<<<Begin:Setting:MySetting)>>>
+        const string source1 = @"<<<Begin:Setting:MySetting>>>
 I am value
-<<<End:Setting)>>> no";
-        const string source2 = @"no <<<Begin:Setting:MySetting)>>>
+<<<End:Setting>>> no";
+        const string source2 = @"no <<<Begin:Setting:MySetting>>>
 I am value
-<<<End:Setting)>>>";
-        const string source3 = @"<<<Begin:Setting:MySetting)>>>
+<<<End:Setting>>>";
+        const string source3 = @"<<<Begin:Setting:MySetting>>>
 I am value
-no <<<End:Setting)>>>";
-        const string source4 = @"<<<Begin:Setting:MySetting)>>> no
+no <<<End:Setting>>>";
+        const string source4 = @"<<<Begin:Setting:MySetting>>> no
 I am value
-<<<End:Setting)>>>";
+<<<End:Setting>>>";
 
-        const string source5 = @"    /* yes */     <<<Begin:Setting:MySetting)>>>        /* yes */         
+        const string source5 = @"    /* yes */     <<<Begin:Setting:MySetting>>>        /* yes */         
 I am value
-                         /* yes */           <<<End:Setting)>>>          /* yes */                 ";
+                         /* yes */           <<<End:Setting>>>          /* yes */                 ";
 
         var parser = new Parser(source1);
         var response = parser.Parse();
@@ -55,39 +55,43 @@ I am value
     [TestMethod]
     public void CanParseBasicBroncoFile1()
     {
-        const string source = @"<<<Begin:Setting:MySetting)>>>
+        const string source = @"<<<Begin:Setting:MySetting>>>
 I am value
-<<<End:Setting)>>>";
+<<<End:Setting>>>";
 
+        var parser = new Parser(source);
+        var response = parser.Parse();
+        Assert.AreEqual(Status.Success, response.Status);
+        Assert.AreEqual("I am value", response.Settings.GetValue("MySetting"));
     }
 
     [TestMethod]
     public void CanParseBasicBroncoFile2()
     {
-        const string source = @"<<<Begin:Setting:MySetting)>>>
+        const string source = @"<<<Begin:Setting:MySetting>>>
 /* Here comes the value: */
 I /* Hello */ am /* World! */ value
 /* That's it */
-<<<End:Setting)>>>";
+<<<End:Setting>>>";
 
     }
 
     [TestMethod]
     public void CanParseBasicBroncoFile3()
     {
-        const string source = @"<<<Begin:Setting:Setting 1)>>>
+        const string source = @"<<<Begin:Setting:Setting 1>>>
 
     /* The first setting */
     I am value!
 
-<<<End:Setting)>>>
-<<<Begin:Setting:The Second Setting)>>>
+<<<End:Setting>>>
+<<<Begin:Setting:The Second Setting>>>
 
     /* The 2:nd setting */
     I am also
     value.
 
-<<<End:Setting)>>>";
+<<<End:Setting>>>";
 
     }
 }
