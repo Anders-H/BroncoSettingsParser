@@ -1,4 +1,5 @@
 using BroncoSettingsParser;
+using BroncoSettingsParser.Comments;
 using BroncoSettingsParser.ResponseModel;
 
 namespace BroncoSettingsParserTests;
@@ -93,5 +94,15 @@ I /* Hello */ am /* World! */ value
 
 <<<End:Setting>>>";
 
+    }
+
+    [TestMethod]
+    public void CanRemoveComments()
+    {
+        Assert.AreEqual("ABC", new Remover("ABC").Remove());
+        Assert.AreEqual("ABC", new Remover("A/*a*/B/*a*/C").Remove());
+        Assert.AreEqual("AB", new Remover("AB/*CD").Remove());
+        Assert.AreEqual("CD", new Remover("AB*/CD").Remove());
+        Assert.AreEqual("CDGF", new Remover("AB*/CD/*EF*/GH/*IJ").Remove());
     }
 }

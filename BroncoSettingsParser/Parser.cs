@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
+using BroncoSettingsParser.Comments;
 using BroncoSettingsParser.ResponseModel;
 
 namespace BroncoSettingsParser;
@@ -33,7 +34,7 @@ public class Parser
             if (string.IsNullOrWhiteSpace(trimmed))
                 continue;
 
-            trimmed = RemoveComments(trimmed);
+            trimmed = new Remover(trimmed).Remove();
             var trimRegex = new Regex(@"\s+");
             trimmed = trimRegex.Replace(trimmed, " ").Trim();
 
