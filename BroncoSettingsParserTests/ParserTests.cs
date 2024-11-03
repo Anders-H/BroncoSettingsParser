@@ -99,10 +99,21 @@ I /* Hello */ am /* World! */ value
     [TestMethod]
     public void CanRemoveComments()
     {
-        Assert.AreEqual("ABC", new Remover("ABC").Remove());
-        Assert.AreEqual("ABC", new Remover("A/*a*/B/*a*/C").Remove());
-        Assert.AreEqual("AB", new Remover("AB/*CD").Remove());
-        Assert.AreEqual("CD", new Remover("AB*/CD").Remove());
-        Assert.AreEqual("CDGH", new Remover("AB*/CD/*EF*/GH/*IJ").Remove());
+        Assert.AreEqual("ABC", new Remover("ABC").Remove(out _));
+        Assert.AreEqual("ABC", new Remover("A/*a*/B/*a*/C").Remove(out _));
+        Assert.AreEqual("AB", new Remover("AB/*CD").Remove(out _));
+        Assert.AreEqual("CD", new Remover("AB*/CD").Remove(out _));
+        Assert.AreEqual("CDGH", new Remover("AB*/CD/*EF*/GH/*IJ").Remove(out _));
+    }
+
+    [TestMethod]
+    public void CommentScope()
+    {
+        new Remover("/* Hello */").Remove(out var commentScope);
+        Assert.IsFalse(commentScope);
+        new Remover("Hello /* yes").Remove(out commentScope);
+        Assert.IsTrue(commentScope);
+        new Remover("yes */ Hello").Remove(out commentScope);
+        Assert.IsFalse(commentScope);
     }
 }

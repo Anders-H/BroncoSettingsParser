@@ -34,7 +34,7 @@ public class Parser
             if (string.IsNullOrWhiteSpace(trimmed))
                 continue;
 
-            trimmed = new Remover(trimmed).Remove();
+            trimmed = new Remover(trimmed).Remove(out var commentScope);
             var trimRegex = new Regex(@"\s+");
             trimmed = trimRegex.Replace(trimmed, " ").Trim();
 
