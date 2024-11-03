@@ -151,3 +151,41 @@ To read a specific setting:
 ```
 
 The result is `I am also value!`.
+
+## Mapping
+
+Mapping requires the least code to acquire settings from a `.bronco` file.
+All settings need to be named accordingly to C# name rules.
+
+
+```
+<<<Begin:Setting:Setting1>>>
+
+    /* The first setting */
+    I am value!
+
+<<<End:Setting>>>
+<<<Begin:Setting:TheSecondSetting>>>
+
+    /* The 2:nd setting */
+    I am also
+    value.
+
+<<<End:Setting>>>
+```
+
+Class to map the settings to:
+
+```
+```
+
+Read the settings:
+
+```
+```
+
+If not all names are matched, an exception will occur.
+
+## Validation
+
+Validation is available for mapping only.

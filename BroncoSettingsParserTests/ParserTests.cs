@@ -75,6 +75,10 @@ I /* Hello */ am /* World! */ value
 /* That's it */
 <<<End:Setting>>>";
 
+        var parser = new Parser(source);
+        var response = parser.Parse();
+        Assert.AreEqual(Status.Success, response.Status);
+        Assert.AreEqual("I am value", response.Settings.GetValue("MySetting"));
     }
 
     [TestMethod]
@@ -94,6 +98,11 @@ I /* Hello */ am /* World! */ value
 
 <<<End:Setting>>>";
 
+        var parser = new Parser(source);
+        var response = parser.Parse();
+        Assert.AreEqual(Status.Success, response.Status);
+        Assert.AreEqual("I am value!", response.Settings.GetValue("Setting 1"));
+        Assert.AreEqual("I am also value.", response.Settings.GetValue("The Second Setting"));
     }
 
     [TestMethod]
