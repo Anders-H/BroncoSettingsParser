@@ -103,6 +103,6 @@ I /* Hello */ am /* World! */ value
         Assert.AreEqual("ABC", new Remover("A/*a*/B/*a*/C").Remove());
         Assert.AreEqual("AB", new Remover("AB/*CD").Remove());
         Assert.AreEqual("CD", new Remover("AB*/CD").Remove());
-        Assert.AreEqual("CDGF", new Remover("AB*/CD/*EF*/GH/*IJ").Remove());
+        Assert.AreEqual("CDGH", new Remover("AB*/CD/*EF*/GH/*IJ").Remove());
     }
 }
