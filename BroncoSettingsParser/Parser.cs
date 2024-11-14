@@ -44,7 +44,7 @@ public class Parser
                 continue;
             }
             
-            if (isInCommentScope && !commentScope && commentScope != null)
+            if (isInCommentScope && !commentScope && currentSetting != null)
             {
                 isInCommentScope = false;
 

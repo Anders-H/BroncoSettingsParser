@@ -4,6 +4,11 @@ A self-documenting settings parser that reads `.bronco` files and returns values
 
 ![Bronco logo](https://raw.githubusercontent.com/Anders-H/BroncoSettingsParser/refs/heads/main/bronco.jpg)
 
+## Table of contents
+
+- Load a configuration file
+- Bronco file specifications
+
 ## Load a configuration file
 
 This code loads settings from a string constant:
@@ -24,7 +29,7 @@ This code loads settings from a `.bronco` file called `MySettings.bronco`, locat
 
 The only supported datatype is string. Constrains can be implemented using other libraries.
 
-## Bronco file specification
+## Bronco file specifications
 
 A Bronco settings file is any UTF-8 encoded text file with `.bronco` as file ending. Bronco settings files are not case sensitive.
 
