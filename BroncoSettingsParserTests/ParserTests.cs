@@ -50,7 +50,8 @@ I am value
         parser = new Parser(source5);
         response = parser.Parse();
         Assert.AreEqual(Status.Success, response.Status);
-        Assert.AreEqual("", response.Message);
+        Assert.AreEqual("Ok.", response.Message);
+        Assert.AreEqual("I am value", response.Settings.GetValue("MySetting"));
     }
 
     [TestMethod]
@@ -116,7 +117,7 @@ I /* Hello */ am /* World! */ value
     }
 
     [TestMethod]
-    public void CommentScope()
+    public void IdentifyCommentScope()
     {
         new Remover("/* Hello */").Remove(out var commentScope);
         Assert.IsFalse(commentScope);
@@ -124,5 +125,59 @@ I /* Hello */ am /* World! */ value
         Assert.IsTrue(commentScope);
         new Remover("yes */ Hello").Remove(out commentScope);
         Assert.IsFalse(commentScope);
+    }
+
+    [TestMethod]
+    public void UseCommentScope()
+    {
+        const string source = @"/*<<<Begin:Setting:Setting 1>>>
+
+    /* The first setting */
+    I am value!
+
+<<<End:Setting>>> /*
+<<<Begin:Setting:The Second Setting>>>
+
+    /* The 2:nd setting */
+    I am also
+    value.
+
+<<<End:Setting>>>";
+
+        var parser = new Parser(source);
+        var response = parser.Parse();
+        Assert.AreEqual(Status.Success, response.Status);
+        Assert.AreEqual(1, response.Settings.Count);
+        Assert.AreEqual("I am also value.", response.Settings.GetValue("The Second Setting"));
+    }
+
+    [TestMethod]
+    public void CommentScopeVariation()
+    {
+        const string source = @"<<<Begin:Setting:Setting>>>
+
+I am /* a
+very nice and
+fine */ value!
+
+<<<End:Setting>>>";
+
+        var parser = new Parser(source);
+        var response = parser.Parse();
+        Assert.AreEqual(Status.Success, response.Status);
+        Assert.AreEqual(1, response.Settings.Count);
+        Assert.AreEqual("I am value!", response.Settings.GetValue("Setting"));
+    }
+
+    [TestMethod]
+    public void CanRemoveCommentsFromTags()
+    {
+        const string source = @"    /* yes */     <<<Begin:Setting:MySetting>>>        /* yes */         
+I am value
+                         /* yes */           <<<End:Setting>>>          /* yes */                 ";
+        var parser = new Parser(source);
+        var response = parser.Parse();
+        Assert.AreEqual(Status.Success, response.Status);
+        Assert.AreEqual("Ok.", response.Message);
     }
 }

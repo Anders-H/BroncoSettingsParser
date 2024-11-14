@@ -30,13 +30,13 @@ public class Remover
             {
                 if (firstClose > firstOpen)
                 {
-                    result = Cut(result, firstOpen, firstClose);
+                    result = Cut(result, firstOpen, firstClose).Trim();
                     _commentScope = false;
                     commentScope = false;
                 }
                 else
                 {
-                    result = CutBeginning(result, firstClose);
+                    result = CutBeginning(result, firstClose).Trim();
                     firstOpen = result.LastIndexOf("/*", StringComparison.Ordinal);
                     result = CutEnd(result, firstOpen);
                     _commentScope = true;

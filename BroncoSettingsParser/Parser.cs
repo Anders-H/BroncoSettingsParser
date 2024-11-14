@@ -26,6 +26,7 @@ public class Parser
         var settings = new SettingCollection();
         Setting? currentSetting = null;
         var currentValue = new StringBuilder();
+        var isInCommentScope = false;
 
         foreach (var row in _rows)
         {
@@ -35,6 +36,24 @@ public class Parser
                 continue;
 
             trimmed = new Remover(trimmed).Remove(out var commentScope);
+
+            if (!isInCommentScope && commentScope && currentSetting != null)
+            {
+                currentValue.Append($"{trimmed} ");
+                isInCommentScope = true;
+                continue;
+            }
+            
+            if (isInCommentScope && !commentScope && commentScope != null)
+            {
+                isInCommentScope = false;
+
+                if (ClosesCommentScope(row, out var closeIndex))
+                    trimmed = trimmed.Substring(closeIndex + 2).Trim();
+                else
+                    continue;
+            }
+
             var trimRegex = new Regex(@"\s+");
             trimmed = trimRegex.Replace(trimmed, " ").Trim();
 
@@ -70,7 +89,7 @@ public class Parser
             }
             else
             {
-                if (row == "<<<End:Setting>>>")
+                if (trimmed == "<<<End:Setting>>>")
                 {
                     var value = trimRegex.Replace(currentValue.ToString(), " ").Trim();
                     currentSetting.Value = value;
@@ -97,5 +116,18 @@ public class Parser
 
         var status = settings.Count > 0 ? Status.Success : Status.NoData;
         return new ParseResult(status, "Ok.", settings);
+    }
+
+    private bool ClosesCommentScope(string row, out int closeIndex)
+    {
+        var openIndex = row.IndexOf("/*", StringComparison.Ordinal);
+        closeIndex = row.IndexOf("*/", StringComparison.Ordinal);
+
+        return openIndex switch
+        {
+            >= 0 when closeIndex >= 0 => openIndex > closeIndex,
+            >= 0 => false,
+            _ => closeIndex >= 0
+        };
     }
 }
