@@ -4,6 +4,12 @@ A self-documenting settings parser that reads `.bronco` files and returns values
 
 ![Bronco logo](https://raw.githubusercontent.com/Anders-H/BroncoSettingsParser/refs/heads/main/bronco.jpg)
 
+## Install
+
+Broco Settings Parser requires .NET 8.0.
+
+`// Can't do that yet...`
+
 ## Table of contents
 
 - Load a configuration file
@@ -12,7 +18,7 @@ A self-documenting settings parser that reads `.bronco` files and returns values
 - Read a bronco file
 - Mapping
 - Validation
-- Real world examples
+- [Real world examples](https://github.com/Anders-H/BroncoSettingsParser/blob/main/realworldexamples.md)
 
 ## Load a configuration file
 
@@ -20,6 +26,7 @@ This code loads settings from a string constant:
 
 
 ```
+Coming soon...
 
 ```
 
@@ -27,6 +34,7 @@ This code loads settings from a `.bronco` file called `MySettings.bronco`, locat
 
 
 ```
+Coming soon...
 
 ```
 
@@ -145,6 +153,7 @@ The test method `CanParseBasicBroncoFile3` reads the file above.
 
 
 ```
+Coming soon...
 ```
 
 
@@ -158,6 +167,7 @@ Setting 2: I am also value!
 To read a specific setting:
 
 ```
+Coming soon...
 ```
 
 The result is `I am also value!`.
@@ -187,11 +197,13 @@ All settings need to be named accordingly to C# name rules.
 Class to map the settings to:
 
 ```
+Coming soon...
 ```
 
 Read the settings:
 
 ```
+Coming soon...
 ```
 
 If not all names are matched, an exception will occur.
