@@ -7,7 +7,12 @@ A self-documenting settings parser that reads `.bronco` files and returns values
 ## Table of contents
 
 - Load a configuration file
-- Bronco file specifications
+- [Bronco file specifications](https://github.com/Anders-H/BroncoSettingsParser/blob/main/specifications.md)
+- Limitations
+- Read a bronco file
+- Mapping
+- Validation
+- Real world examples
 
 ## Load a configuration file
 
