@@ -26,7 +26,22 @@ This code loads settings from a string constant:
 
 
 ```
-Coming soon...
+using BroncoSettingsParser;
+
+const string settings = @"
+<<<Begin:Setting:BackgroundColor>>>
+    #DDDDDD
+<<<End:Setting>>>
+
+<<<Begin:Setting:ForegroundColor>>>
+    #220022
+<<<End:Setting>>>
+";
+
+var parser = new Parser(settings);
+var response = parser.Parse();
+Console.WriteLine(response.Settings.GetValue("BackgroundColor")); // #DDDDDD
+Console.WriteLine(response.Settings.GetValue("ForegroundColor")); // #220022
 
 ```
 
@@ -96,6 +111,19 @@ I am value
 ```
 
 Whitespaces are not preserved in values. Whitespaces in values are treated in a smular way that it is treated in HTML - the occurrence of any whitespace represents a whitespace. A whitespace in a value can be *space*, *tab* or *carriage return/line feed*.
+
+Empty values looks like this:
+
+```
+<<<Begin:Setting:MySetting>>>
+<<<End:Setting>>>
+```
+
+This is incorrect, because the block opener and the block closer must be alone on a row:
+
+```
+<<<Begin:Setting:MySetting>>><<<End:Setting>>>
+```
 
 ### Remarks
 

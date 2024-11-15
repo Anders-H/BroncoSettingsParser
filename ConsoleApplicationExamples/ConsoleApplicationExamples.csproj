@@ -11,4 +11,10 @@
     <ProjectReference Include="..\BroncoSettingsParser\BroncoSettingsParser.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="mysettings.bronco">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

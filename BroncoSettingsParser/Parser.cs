@@ -64,6 +64,9 @@ public class Parser
             {
                 var beginSetting = Regex.Match(trimmed, "^<<<Begin:Setting:(.*)>>>$");
 
+                if (trimmed.LastIndexOf("<<<", StringComparison.Ordinal) > trimmed.IndexOf("<<<", StringComparison.Ordinal))
+                    return new ParseResult(Status.Failed, "Opening blocks and closing blocks be alone on a row.", new SettingCollection());
+
                 if (beginSetting.Success)
                 {
                     var settingName = beginSetting.Groups[1].Value.Trim();
@@ -100,6 +103,9 @@ public class Parser
                 else
                 {
                     var endSetting = Regex.Match(trimmed, "^<<<.*>>>");
+
+                    if (trimmed.LastIndexOf("<<<", StringComparison.Ordinal) > trimmed.IndexOf("<<<", StringComparison.Ordinal))
+                        return new ParseResult(Status.Failed, "Opening blocks and closing blocks be alone on a row.", new SettingCollection());
 
                     if (endSetting.Success)
                         return new ParseResult(Status.Failed, "Data after closing tag is not allowed.", settings);

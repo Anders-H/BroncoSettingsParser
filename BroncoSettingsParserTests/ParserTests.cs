@@ -132,10 +132,10 @@ I /* Hello */ am /* World! */ value
     {
         const string source = @"/*<<<Begin:Setting:Setting 1>>>
 
-    /* The first setting */
+    The first setting */
     I am value!
-
-<<<End:Setting>>> /*
+                      /*
+<<<End:Setting>>>  */
 <<<Begin:Setting:The Second Setting>>>
 
     /* The 2:nd setting */
@@ -179,5 +179,22 @@ I am value
         var response = parser.Parse();
         Assert.AreEqual(Status.Success, response.Status);
         Assert.AreEqual("Ok.", response.Message);
+    }
+
+    [TestMethod]
+    public void CanHandleEmptyValues()
+    {
+        var parser = new Parser(@"
+<<<Begin:Setting:MySetting>>>
+<<<End:Setting>>>
+");
+        var response = parser.Parse();
+        Assert.AreEqual(Status.Success, response.Status);
+        Assert.AreEqual("", response.Settings.GetValue("MySetting"));
+        parser = new Parser(@"
+<<<Begin:Setting:MySetting>>><<<End:Setting>>>
+");
+        response = parser.Parse();
+        Assert.AreEqual(Status.Failed, response.Status);
     }
 }
