@@ -16,7 +16,7 @@ Broco Settings Parser requires .NET 8.0.
 - [Bronco file specifications](https://github.com/Anders-H/BroncoSettingsParser/blob/main/specifications.md)
 - Limitations
 - Read a bronco file
-- Mapping
+- [Mapping](https://github.com/Anders-H/BroncoSettingsParser/blob/main/mapping.md)
 - Validation
 - [Real world examples](https://github.com/Anders-H/BroncoSettingsParser/blob/main/realworldexamples.md)
 
@@ -234,7 +234,21 @@ All settings need to be named accordingly to C# name rules.
 Class to map the settings to:
 
 ```
-Coming soon...
+public class MyNiceSettings
+{
+    public string Setting1 { get; set; }
+    public string TheSecondSetting { get; set; }
+
+    public MyNiceSettings() : this("", "")
+    {
+    }
+
+    public MyNiceSettings(string setting1, string theSecondSetting)
+    {
+        Setting1 = setting1;
+        TheSecondSetting = theSecondSetting;
+    }
+}
 ```
 
 Read the settings:

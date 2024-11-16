@@ -12,6 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="mapping.bronco">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="mysettings.bronco">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

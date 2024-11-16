@@ -12,4 +12,9 @@ public class ParseResult
         Message = message;
         Settings = settings;
     }
+
+    public T Map<T>() where T : class, new()
+    {
+
+    }
 }
