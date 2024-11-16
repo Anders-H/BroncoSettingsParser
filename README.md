@@ -42,18 +42,17 @@ var parser = new Parser(settings);
 var response = parser.Parse();
 Console.WriteLine(response.Settings.GetValue("BackgroundColor")); // #DDDDDD
 Console.WriteLine(response.Settings.GetValue("ForegroundColor")); // #220022
-
 ```
 
-This code loads settings from a `.bronco` file called `MySettings.bronco`, located in the same folder as the running exe-file:
-
-
-```
-Coming soon...
+This code loads settings from a `.bronco` file called `mysettings.bronco`, located in the same folder as the running exe-file.
+The contents of the file is the same as the contents of the string constant in the previous example.
 
 ```
-
-
+var parser = new Parser(new FileInfo(Path.Combine(Tools.ExeFolder.FullName, "mysettings.bronco")));
+var response = parser.Parse();
+Console.WriteLine(response.Settings.GetValue("BackgroundColor")); // #DDDDDD
+Console.WriteLine(response.Settings.GetValue("ForegroundColor")); // #220022
+```
 
 The only supported datatype is string. Constrains can be implemented using other libraries.
 
@@ -148,8 +147,10 @@ This is also a remark.
 I am value
 <<<End:Setting>>>
 
-And this is a remark, even without /* and /*.
+And this is a remark, even without /* and */.
 ```
+
+Remarks on the same line as an opening och closing row, must be surrounded by `/*` and `*/`.
 
 ## Limitations
 
@@ -177,13 +178,17 @@ This is the sample file:
 <<<End:Setting>>>
 ```
 
-The test method `CanParseBasicBroncoFile3` reads the file above.
-
+This code iterates through the two settings:
 
 ```
-Coming soon...
-```
+using BroncoSettingsParser;
 
+var parser = new Parser(new FileInfo(Path.Combine(Tools.ExeFolder.FullName, "samplefile.bronco")));
+var response = parser.Parse();
+
+for (var i = 0; i < response.Settings.Count; i++)
+    Console.WriteLine($"Setting {i + 1}: {response.Settings[i].Value}");
+```
 
 This is the result:
 
@@ -192,10 +197,14 @@ Setting 1: I am value!
 Setting 2: I am also value!
 ```
 
-To read a specific setting:
+To read a specific setting, call the `GetValue` method:
 
 ```
-Coming soon...
+using BroncoSettingsParser;
+
+var parser = new Parser(new FileInfo(Path.Combine(Tools.ExeFolder.FullName, "samplefile.bronco")));
+var response = parser.Parse();
+Console.WriteLine(response.Settings.GetValue("The Second Setting"));
 ```
 
 The result is `I am also value!`.
@@ -235,7 +244,3 @@ Coming soon...
 ```
 
 If not all names are matched, an exception will occur.
-
-## Validation
-
-Validation is available for mapping only.

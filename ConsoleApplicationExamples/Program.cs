@@ -1,6 +1,5 @@
 ﻿using BroncoSettingsParser;
 
-var parser = new Parser(new FileInfo(Path.Combine()));
+var parser = new Parser(new FileInfo(Path.Combine(Tools.ExeFolder.FullName, "samplefile.bronco")));
 var response = parser.Parse();
-Console.WriteLine(response.Settings.GetValue("BackgroundColor")); // #DDDDDD
-Console.WriteLine(response.Settings.GetValue("ForegroundColor")); // #220022
+Console.WriteLine(response.Settings.GetValue("The Second Setting"));

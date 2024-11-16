@@ -2,7 +2,7 @@
 
 public class SettingCollection
 {
-    private Dictionary<string, string> _settings;
+    private readonly Dictionary<string, string> _settings;
 
     public SettingCollection()
     {
@@ -28,5 +28,14 @@ public class SettingCollection
     {
         if (!Set(setting))
             throw new ArgumentException($"Setting exists: {setting.Name}");
+    }
+
+    public Setting this[int index]
+    {
+        get
+        {
+            var item = _settings.ElementAt(index);
+            return new Setting(item.Key, item.Value);
+        }
     }
 }
