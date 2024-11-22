@@ -22,6 +22,13 @@ This is ok:
                               <<<End:Setting>>>
 ```
 
+This is ok:
+
+```
+    /* Open a block: */   <<<Begin:Setting:Name goes here>>>
+    <<<End:Setting>>>
+```
+
 This is *not* ok:
 
 
@@ -39,7 +46,6 @@ This is *not* ok:
 ```
 
 Whitespaces in names are not preserved. Whitespaces before and after the name will be removed, any whitespaces within the name (*spaces* or *tabs*) will be replaced with one space.
-
 
 ## Values
 
