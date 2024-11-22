@@ -1,5 +1,6 @@
 using BroncoSettingsParser;
 using BroncoSettingsParser.Comments;
+using BroncoSettingsParser.Exceptions;
 using BroncoSettingsParser.ResponseModel;
 
 namespace BroncoSettingsParserTests;
@@ -196,5 +197,53 @@ I am value
 ");
         response = parser.Parse();
         Assert.AreEqual(Status.Failed, response.Status);
+    }
+
+    [TestMethod]
+    public void BasicMapping()
+    {
+        var parser = new Parser(@"
+<<<Begin:Setting:StringValue1>>>
+    Hello 1
+<<<End:Setting>>>
+
+<<<Begin:Setting:StringValue2>>>
+    Hello 2
+<<<End:Setting>>>");
+        var response = parser.Parse();
+        var typedResponse = response.Map<BasicMappingTestClass>();
+        Assert.AreEqual("Hello 1", typedResponse.StringValue1);
+        Assert.AreEqual("Hello 2", typedResponse.StringValue2);
+    }
+
+    [TestMethod]
+    public void MappingFailsIfPropertyIsNotFound()
+    {
+        var parser = new Parser(@"
+<<<Begin:Setting:StringValue1>>>
+    Hello 1
+<<<End:Setting>>>
+
+<<<Begin:Setting:NotFoundHere>>>
+    Hello 2
+<<<End:Setting>>>)");
+        var response = parser.Parse();
+        Assert.ThrowsException<PropertyMissingException>(() => response.Map<BasicMappingTestClass>());
+    }
+}
+
+public class BasicMappingTestClass
+{
+    public string StringValue1 { get; set; }
+    public string StringValue2 { get; set; }
+
+    public BasicMappingTestClass() : this("", "")
+    {
+    }
+
+    public BasicMappingTestClass(string stringValue1, string stringValue2)
+    {
+        StringValue1 = stringValue1;
+        StringValue2 = stringValue2;
     }
 }

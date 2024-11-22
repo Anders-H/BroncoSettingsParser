@@ -254,7 +254,18 @@ public class MyNiceSettings
 Read the settings:
 
 ```
-Coming soon...
+using BroncoSettingsParser;
+using BroncoSettingsParser.ResponseModel;
+
+var parser = new Parser(new FileInfo(Path.Combine(Tools.ExeFolder.FullName, "mapping.bronco")));
+var response = parser.Parse();
+
+if (response.Status != Status.Success)
+    throw new SystemException("Parse failed.");
+
+var settings = response.Map<MyNiceSettings>();
+Console.WriteLine(settings.Setting1);
+Console.WriteLine(settings.TheSecondSetting);
 ```
 
 If not all names are matched, an exception will occur.

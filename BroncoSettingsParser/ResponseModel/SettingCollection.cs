@@ -12,6 +12,9 @@ public class SettingCollection
     public int Count =>
         _settings.Count;
 
+    public bool HasSetting(string settingName) =>
+        _settings.ContainsKey(settingName);
+
     public Setting? GetSetting(string key) =>
         _settings.TryGetValue(key, out var value) ? new Setting(key, value) : null;
 

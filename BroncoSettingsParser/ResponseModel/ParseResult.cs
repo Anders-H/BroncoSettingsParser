@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+﻿using BroncoSettingsParser.Exceptions;
 
 namespace BroncoSettingsParser.ResponseModel;
 
@@ -25,13 +25,18 @@ public class ParseResult
             if (!propertyInfo.CanWrite)
                 continue;
 
+            var propertyName = propertyInfo.Name;
+
+            if (!Settings.HasSetting(propertyName))
+                throw new PropertyMissingException($"Property is missing: {propertyName}");
+
             switch (propertyInfo.PropertyType.FullName)
             {
                 case "System.String":
-                    propertyInfo.SetValue(result, Settings.GetValue(propertyInfo.Name));
+                    propertyInfo.SetValue(result, Settings.GetValue(propertyName));
                     break;
                 default:
-                    throw new SystemException($"Property type not supported: {propertyInfo.PropertyType.FullName}");
+                    throw new PropertyTypeNotSupportedException($"Property type not supported: {propertyInfo.PropertyType.FullName}");
             }
         }
 
