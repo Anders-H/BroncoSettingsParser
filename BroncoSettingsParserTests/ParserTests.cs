@@ -1,3 +1,4 @@
+using System.Drawing;
 using BroncoSettingsParser;
 using BroncoSettingsParser.Comments;
 using BroncoSettingsParser.Exceptions;
@@ -230,6 +231,21 @@ I am value
         var response = parser.Parse();
         Assert.ThrowsException<PropertyMissingException>(() => response.Map<BasicMappingTestClass>());
     }
+
+    [TestMethod]
+    public void MappingHasDatatypeSupport()
+    {
+        var parser = new Parser(@"
+<<<Begin:Setting:MyStringSetting>>>
+    Hello!
+<<<End:Setting>>>
+<<<Begin:Setting:MyIntSetting>>>
+    56
+<<<End:Setting>>>
+<<<Begin:Setting:MyPointSetting>>>
+    45,81
+<<<End:Setting>>>");
+    }
 }
 
 public class BasicMappingTestClass
@@ -245,5 +261,23 @@ public class BasicMappingTestClass
     {
         StringValue1 = stringValue1;
         StringValue2 = stringValue2;
+    }
+}
+
+public class DataTypeSupport
+{
+    public string MyStringSetting { get; set; }
+    public int MyIntSetting { get; set; }
+    public Point MyPointSetting { get; set; }
+
+    public DataTypeSupport() : this("", 0, Point.Empty)
+    {
+    }
+
+    public DataTypeSupport(string myStringSetting, int myIntSetting, Point myPointSetting)
+    {
+        MyStringSetting = myStringSetting;
+        MyIntSetting = myIntSetting;
+        MyPointSetting = myPointSetting;
     }
 }

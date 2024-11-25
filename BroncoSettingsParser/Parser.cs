@@ -2,22 +2,26 @@
 using System.Text.RegularExpressions;
 using BroncoSettingsParser.Comments;
 using BroncoSettingsParser.ResponseModel;
+using BroncoSettingsParser.ValueParsers;
 
 namespace BroncoSettingsParser;
 
 public class Parser
 {
     private readonly string _source;
+    private readonly ValueParserList<object> _valueParsers;
     private List<string>? _rows;
-
+    
     public Parser(FileInfo sourceFile)
     {
         _source = File.ReadAllText(sourceFile.FullName);
+        _valueParsers = new ValueParserList<object>();
     }
 
     public Parser(string source)
     {
         _source = source;
+        _valueParsers = new ValueParserList<object>();
     }
 
     public ParseResult Parse()

@@ -200,4 +200,4 @@ Console.WriteLine(settings.TheSecondSetting);
 
 If not all names are matched, an exception will occur.
 
-[More information](https://github.com/Anders-H/BroncoSettingsParser/blob/main/mapping.md)
+More information and datatype support [is available here](https://github.com/Anders-H/BroncoSettingsParser/blob/main/mapping.md).
