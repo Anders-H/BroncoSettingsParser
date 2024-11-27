@@ -3,6 +3,7 @@ using BroncoSettingsParser;
 using BroncoSettingsParser.Comments;
 using BroncoSettingsParser.Exceptions;
 using BroncoSettingsParser.ResponseModel;
+using BroncoSettingsParser.ValueParsers;
 
 namespace BroncoSettingsParserTests;
 
@@ -245,6 +246,12 @@ I am value
 <<<Begin:Setting:MyPointSetting>>>
     45,81
 <<<End:Setting>>>");
+        var response = parser.Parse();
+        var mapped = response.Map<DataTypeSupport>();
+
+        Assert.AreEqual("Hello!", mapped.MyStringSetting);
+        Assert.AreEqual(56, mapped.MyIntSetting);
+        Assert.AreEqual(new Point(45, 81), mapped.MyPointSetting);
     }
 }
 
@@ -279,5 +286,21 @@ public class DataTypeSupport
         MyStringSetting = myStringSetting;
         MyIntSetting = myIntSetting;
         MyPointSetting = myPointSetting;
+    }
+}
+
+public class IntParser : IValueParser<int>
+{
+    public int Parse(string source) =>
+        int.Parse(source);
+
+}
+
+public class PointParser : IValueParser<Point>
+{
+    public Point Parse(string source)
+    {
+        var parts = source.Split(',');
+        return new Point(int.Parse(parts[0]), int.Parse(parts[1]));
     }
 }

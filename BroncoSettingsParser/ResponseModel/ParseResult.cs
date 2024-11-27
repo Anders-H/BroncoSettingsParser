@@ -1,15 +1,18 @@
 ﻿using BroncoSettingsParser.Exceptions;
+using BroncoSettingsParser.ValueParsers;
 
 namespace BroncoSettingsParser.ResponseModel;
 
 public class ParseResult
 {
+    private readonly ValueParserList _valueParsers;
     public Status Status { get; }
     public string Message { get; }
     public SettingCollection Settings { get; }
 
     internal ParseResult(Status status, string message, SettingCollection settings)
     {
+        _valueParsers = new ValueParserList();
         Status = status;
         Message = message;
         Settings = settings;
@@ -30,13 +33,16 @@ public class ParseResult
             if (!Settings.HasSetting(propertyName))
                 throw new PropertyMissingException($"Property is missing: {propertyName}");
 
-            switch (propertyInfo.PropertyType.FullName)
+            if (propertyInfo.PropertyType == typeof(string))
             {
-                case "System.String":
-                    propertyInfo.SetValue(result, Settings.GetValue(propertyName));
-                    break;
-                default:
-                    throw new PropertyTypeNotSupportedException($"Property type not supported: {propertyInfo.PropertyType.FullName}");
+                propertyInfo.SetValue(result, Settings.GetValue(propertyName));
+            }
+            else
+            {
+                var vp = _valueParsers.GetParser(propertyInfo.PropertyType);
+                var stringValue = Settings.GetValue(propertyName);
+                var typedValue = vp.Parse(stringValue);
+                propertyInfo.SetValue(result, typedValue);
             }
         }
 

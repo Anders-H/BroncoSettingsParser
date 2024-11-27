@@ -2,25 +2,25 @@
 
 namespace BroncoSettingsParser.ValueParsers;
 
-public class ValueParserList<T>
+public class ValueParserList
 {
-    private readonly List<IValueParser<T>> _parsers;
+    private readonly List<IValueParser<object>> _parsers;
 
     public ValueParserList()
     {
         _parsers = [];
     }
 
-    public void SetValueParser(IValueParser<T> valueParser)
+    public void SetValueParser(IValueParser<object> valueParser)
     {
         _parsers.Remove(valueParser);
         _parsers.Add(valueParser);
     }
 
-    public IValueParser<T> GetParser(Type type)
+    public IValueParser<T> GetParser<T>(T type)
     {
-        foreach (var valueParser in _parsers.Where(valueParser => valueParser.GetType() == type))
-            return valueParser;
+        foreach (var valueParser in _parsers.Where(valueParser => valueParser.GetType() == typeof(T)))
+            return (IValueParser<T>)valueParser;
 
         throw new ValueParserIsMissing(typeof(T).FullName ?? "Unknown");
     }

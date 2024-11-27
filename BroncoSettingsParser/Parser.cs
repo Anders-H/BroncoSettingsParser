@@ -9,19 +9,19 @@ namespace BroncoSettingsParser;
 public class Parser
 {
     private readonly string _source;
-    private readonly ValueParserList<object> _valueParsers;
+    private readonly ValueParserList _valueParsers;
     private List<string>? _rows;
     
     public Parser(FileInfo sourceFile)
     {
         _source = File.ReadAllText(sourceFile.FullName);
-        _valueParsers = new ValueParserList<object>();
+        _valueParsers = new ValueParserList();
     }
 
     public Parser(string source)
     {
         _source = source;
-        _valueParsers = new ValueParserList<object>();
+        _valueParsers = new ValueParserList();
     }
 
     public ParseResult Parse()

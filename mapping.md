@@ -61,8 +61,11 @@ If not all names are matched, an exception will occur.
 
 ## Datatypes
 
-All target properties are expected to be strings. If a property has a datatype other than `string`, a value parser will be used.
-If a value parser isn't provided, an exception will occur. For each datatype you want to support, you need to create a value parser and add it to the Parser `object`.
+All target properties are expected to be strings.
+If a property has a datatype other than `string`, a value parser will be invoked.
+For each datatype you want to support,
+you need to create a value parser and add it to the `ParseResult` object before calling the `Map` function.
+If a value parser isn't provided, an exception will occur.
 
 This example has a `string` setting (supported by default), an `int` setting and a `Point` setting.
 
@@ -78,7 +81,8 @@ This example has a `string` setting (supported by default), an `int` setting and
 <<<End:Setting>>>
 ```
 
-This source will be passed as a string to the parser, and it will be mapped to an instance of this class:
+This source will be passed as a string to the parser,
+and it will be mapped to an instance of this class:
 
 ```
 public class DataTypeSupport
@@ -103,16 +107,33 @@ public class DataTypeSupport
 All custom value parsers implement the IValueParser&lt;T&gt;. This is the `int` parser:
 
 ```
+public class IntParser : IValueParser<int>
+{
+    public int Parse(string source) =>
+        int.Parse(source);
+
+}
 ```
 
 And this is the `Point` parser:
 
 ```
+public class PointParser : IValueParser<Point>
+{
+    public Point Parse(string source)
+    {
+        var parts = source.Split(',');
+        return new Point(int.Parse(parts[0]), int.Parse(parts[1]));
+    }
+}
 ```
+
+*You must provide the value parsers yourself, and they can be implemented as you like.*
 
 This is a working example:
 
 ```
+
 ```
 
 ---
