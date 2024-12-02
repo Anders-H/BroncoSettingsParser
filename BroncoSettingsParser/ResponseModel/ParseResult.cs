@@ -18,7 +18,12 @@ public class ParseResult
         Settings = settings;
     }
 
-    public T Map<T>() where T : class, new()
+    public void SetValueParser(IValueParser valueParser)
+    {
+        _valueParsers.SetValueParser(valueParser);
+    }
+
+    public T Map<T>() where T : new()
     {
         var result = new T();
         var properties = result.GetType().GetProperties();
@@ -39,7 +44,7 @@ public class ParseResult
             }
             else
             {
-                var vp = _valueParsers.GetParser(propertyInfo.PropertyType);
+                var vp = _valueParsers.GetParser(typeof(int)); //(propertyInfo.PropertyType);
                 var stringValue = Settings.GetValue(propertyName);
                 var typedValue = vp.Parse(stringValue);
                 propertyInfo.SetValue(result, typedValue);

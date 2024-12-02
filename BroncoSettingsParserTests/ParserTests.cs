@@ -247,6 +247,8 @@ I am value
     45,81
 <<<End:Setting>>>");
         var response = parser.Parse();
+        response.SetValueParser(new IntParser());
+        response.SetValueParser(new PointParser());
         var mapped = response.Map<DataTypeSupport>();
 
         Assert.AreEqual("Hello!", mapped.MyStringSetting);
@@ -289,16 +291,21 @@ public class DataTypeSupport
     }
 }
 
-public class IntParser : IValueParser<int>
+public class IntParser : IValueParser
 {
-    public int Parse(string source) =>
-        int.Parse(source);
+    public bool CanParseToType(Type type) =>
+        type == typeof(int);
 
+    public object Parse(string source) =>
+        int.Parse(source);
 }
 
-public class PointParser : IValueParser<Point>
+public class PointParser : IValueParser
 {
-    public Point Parse(string source)
+    public bool CanParseToType(Type type) =>
+        type == typeof(Point);
+
+    public object Parse(string source)
     {
         var parts = source.Split(',');
         return new Point(int.Parse(parts[0]), int.Parse(parts[1]));

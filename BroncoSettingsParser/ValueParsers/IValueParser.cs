@@ -1,7 +1,7 @@
 ﻿namespace BroncoSettingsParser.ValueParsers;
 
-public interface IValueParser<out T>
+public interface IValueParser
 {
-    T Parse(string source);
-    Type GetType(Type type) => typeof(T);
+    bool CanParseToType(Type type);
+    object Parse(string source);
 }
