@@ -3,7 +3,6 @@
 Mapping requires the least code to acquire settings from a `.bronco` file.
 All settings need to be named accordingly to C# name rules.
 
-
 ```
 <<<Begin:Setting:Setting1>>>
 
@@ -104,23 +103,28 @@ public class DataTypeSupport
 }
 ```
 
-All custom value parsers implement the IValueParser&lt;T&gt;. This is the `int` parser:
+All custom value parsers implement the IValueParser. This is the `int` parser:
 
 ```
-public class IntParser : IValueParser<int>
+public class IntParser : IValueParser
 {
-    public int Parse(string source) =>
-        int.Parse(source);
+    public bool CanParseToType(string fullName) =>
+        typeof(int).FullName == fullName;
 
+    public object Parse(string source) =>
+        int.Parse(source);
 }
 ```
 
 And this is the `Point` parser:
 
 ```
-public class PointParser : IValueParser<Point>
+public class PointParser : IValueParser
 {
-    public Point Parse(string source)
+    public bool CanParseToType(string fullName) =>
+        typeof(Point).FullName == fullName;
+
+    public object Parse(string source)
     {
         var parts = source.Split(',');
         return new Point(int.Parse(parts[0]), int.Parse(parts[1]));
@@ -133,7 +137,24 @@ public class PointParser : IValueParser<Point>
 This is a working example:
 
 ```
+var parser = new Parser(@"
+<<<Begin:Setting:MyStringSetting>>>
+    Hello!
+<<<End:Setting>>>
+<<<Begin:Setting:MyIntSetting>>>
+    56
+<<<End:Setting>>>
+<<<Begin:Setting:MyPointSetting>>>
+    45,81
+<<<End:Setting>>>");
+var response = parser.Parse();
+response.SetValueParser(new IntParser());
+response.SetValueParser(new PointParser());
+var mapped = response.Map<DataTypeSupport>();
 
+Assert.AreEqual("Hello!", mapped.MyStringSetting);
+Assert.AreEqual(56, mapped.MyIntSetting);
+Assert.AreEqual(new Point(45, 81), mapped.MyPointSetting);
 ```
 
 ---

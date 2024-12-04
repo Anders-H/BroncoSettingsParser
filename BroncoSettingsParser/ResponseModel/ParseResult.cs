@@ -44,7 +44,7 @@ public class ParseResult
             }
             else
             {
-                var vp = _valueParsers.GetParser(typeof(int)); //(propertyInfo.PropertyType);
+                var vp = _valueParsers.GetParser(propertyInfo.PropertyType.FullName ?? "");
                 var stringValue = Settings.GetValue(propertyName);
                 var typedValue = vp.Parse(stringValue);
                 propertyInfo.SetValue(result, typedValue);

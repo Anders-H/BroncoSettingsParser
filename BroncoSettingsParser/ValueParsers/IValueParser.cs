@@ -2,6 +2,6 @@
 
 public interface IValueParser
 {
-    bool CanParseToType(Type type);
+    bool CanParseToType(string fullName);
     object Parse(string source);
 }

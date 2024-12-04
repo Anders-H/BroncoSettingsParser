@@ -293,8 +293,8 @@ public class DataTypeSupport
 
 public class IntParser : IValueParser
 {
-    public bool CanParseToType(Type type) =>
-        type == typeof(int);
+    public bool CanParseToType(string fullName) =>
+        typeof(int).FullName == fullName;
 
     public object Parse(string source) =>
         int.Parse(source);
@@ -302,8 +302,8 @@ public class IntParser : IValueParser
 
 public class PointParser : IValueParser
 {
-    public bool CanParseToType(Type type) =>
-        type == typeof(Point);
+    public bool CanParseToType(string fullName) =>
+        typeof(Point).FullName == fullName;
 
     public object Parse(string source)
     {

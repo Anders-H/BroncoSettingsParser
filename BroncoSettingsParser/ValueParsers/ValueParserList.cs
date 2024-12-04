@@ -17,14 +17,14 @@ public class ValueParserList
         _parsers.Add(valueParser);
     }
 
-    public IValueParser GetParser<T>(T type)
+    public IValueParser GetParser(string fullName)
     {
         foreach (var p in _parsers)
         {
-            if (p.CanParseToType(type!.GetType()))
+            if (p.CanParseToType(fullName))
                 return p;
         }
 
-        throw new ValueParserIsMissing(typeof(T).FullName ?? "Unknown");
+        throw new ValueParserIsMissing(fullName);
     }
 }
