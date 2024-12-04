@@ -80,7 +80,7 @@ Open a block: <<<Begin:Setting:Name goes here>>>
 
 Whitespaces in names are not preserved. Whitespaces before and after the name will be removed, any whitespaces within the name (*spaces* or *tabs*) will be replaced with one space.
 
-[More information]([Bronco file specifications](https://github.com/Anders-H/BroncoSettingsParser/blob/main/specifications.md))
+More information [is available here](https://github.com/Anders-H/BroncoSettingsParser/blob/main/specifications.md).
 
 ## Limitations
 
