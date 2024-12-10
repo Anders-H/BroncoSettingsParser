@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BroncoSettingsParserTests",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplicationExamples", "ConsoleApplicationExamples\ConsoleApplicationExamples.csproj", "{01323792-35F8-483C-96B6-DF545826C3DF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyWindowsApp", "MyWindowsApp\MyWindowsApp.csproj", "{2353B9F5-5D87-4AE5-B9E9-D8336E52A24E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{01323792-35F8-483C-96B6-DF545826C3DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01323792-35F8-483C-96B6-DF545826C3DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01323792-35F8-483C-96B6-DF545826C3DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2353B9F5-5D87-4AE5-B9E9-D8336E52A24E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2353B9F5-5D87-4AE5-B9E9-D8336E52A24E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2353B9F5-5D87-4AE5-B9E9-D8336E52A24E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2353B9F5-5D87-4AE5-B9E9-D8336E52A24E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

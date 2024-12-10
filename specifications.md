@@ -82,7 +82,7 @@ This is also a remark.
 I am value
 <<<End:Setting>>>
 
-And this is a remark, even without /* and /*.
+And this is a remark, even without /* and */.
 ```
 
 ---
