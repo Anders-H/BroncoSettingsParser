@@ -22,8 +22,8 @@ public class Parser
 
     public static Parser LoadSettingsFromApplicationDirectory(string filename)
     {
-        var path = new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location);
-        return new Parser(new FileInfo(Path.Combine(path.FullName, filename)));
+        var path = new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).Directory;
+        return new Parser(new FileInfo(Path.Combine(path!.FullName, filename)));
     }
 
     public ParseResult Parse()
