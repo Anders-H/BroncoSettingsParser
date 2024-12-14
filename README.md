@@ -18,7 +18,7 @@ Broco Settings Parser requires .NET 8.0.
 - Read a bronco file
 - [Mapping](https://github.com/Anders-H/BroncoSettingsParser/blob/main/mapping.md)
 - Validation
-- [Real world examples](https://github.com/Anders-H/BroncoSettingsParser/blob/main/realworldexamples.md)
+- [Examples](https://github.com/Anders-H/BroncoSettingsParser/blob/main/examples.md)
 
 ## Load a configuration file
 

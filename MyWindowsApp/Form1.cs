@@ -15,7 +15,7 @@ public partial class Form1 : Form
 #if DEBUG
         const string filename = "mybroncosettings.Development.bronco";
 #else
-            const string filename = "mybroncosettings.bronco";
+        const string filename = "mybroncosettings.bronco";
 #endif
         var parser = Parser.LoadSettingsFromApplicationDirectory(filename);
         var raw = parser.Parse();
