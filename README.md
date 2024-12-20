@@ -18,6 +18,7 @@ Broco Settings Parser requires .NET 8.0.
 - Read a bronco file
 - [Mapping](https://github.com/Anders-H/BroncoSettingsParser/blob/main/mapping.md)
 - Validation
+- [Using Bronco for serializable user settings](https://github.com/Anders-H/BroncoSettingsParser/blob/main/usersettings.md)
 - [Examples](https://github.com/Anders-H/BroncoSettingsParser/blob/main/examples.md)
 
 ## Load a configuration file
@@ -72,7 +73,6 @@ other text in them. This is ok:
 
 This is *not* ok:
 
-
 ```
 Open a block: <<<Begin:Setting:Name goes here>>>
 <<<End:Setting>>>
@@ -86,11 +86,11 @@ More information [is available here](https://github.com/Anders-H/BroncoSettingsP
 
 - Escape sequences are not supported. Therefore a a name or a value of a setting cannot contain `<<<`, `>>>`, `/*` or `*/`.
 - Opening tags (`<<<Begin:Setting:Example setting>>>`) and closing tags (`<<<End:Setting>>>`) must stand alone on a row in the settings file.
+- The only supported datatype is `string`, but custom value parsers can be provided when [mapping](https://github.com/Anders-H/BroncoSettingsParser/blob/main/mapping.md) is used. 
 
 ## Read a bronco file
 
 This is the sample file:
-
 
 ```
 <<<Begin:Setting:Setting 1>>>
@@ -143,7 +143,6 @@ The result is `I am also value!`.
 
 Mapping requires the least code to acquire settings from a `.bronco` file.
 All settings need to be named accordingly to C# name rules.
-
 
 ```
 <<<Begin:Setting:Setting1>>>

@@ -7,10 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BroncoSettingsParser", "Bro
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{831F8187-44FE-42F2-A79E-FFCB8BB52CB2}"
 	ProjectSection(SolutionItems) = preProject
-		mapping.md = mapping.md
 		examples.md = examples.md
+		mapping.md = mapping.md
 		README.md = README.md
 		specifications.md = specifications.md
+		usersettings.md = usersettings.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BroncoSettingsParserTests", "BroncoSettingsParserTests\BroncoSettingsParserTests.csproj", "{7F5C96FF-15E8-4314-B1D1-05CE2043F534}"
