@@ -54,14 +54,14 @@
             // blueBackgroundToolStripMenuItem
             // 
             blueBackgroundToolStripMenuItem.Name = "blueBackgroundToolStripMenuItem";
-            blueBackgroundToolStripMenuItem.Size = new Size(180, 22);
+            blueBackgroundToolStripMenuItem.Size = new Size(171, 22);
             blueBackgroundToolStripMenuItem.Text = "Blue background";
             blueBackgroundToolStripMenuItem.Click += blueBackgroundToolStripMenuItem_Click;
             // 
             // yellowForegroundToolStripMenuItem
             // 
             yellowForegroundToolStripMenuItem.Name = "yellowForegroundToolStripMenuItem";
-            yellowForegroundToolStripMenuItem.Size = new Size(180, 22);
+            yellowForegroundToolStripMenuItem.Size = new Size(171, 22);
             yellowForegroundToolStripMenuItem.Text = "Yellow foreground";
             yellowForegroundToolStripMenuItem.Click += yellowForegroundToolStripMenuItem_Click;
             // 
@@ -74,6 +74,7 @@
             MainMenuStrip = menuStrip1;
             Name = "Form1";
             Text = "Form1";
+            FormClosed += Form1_FormClosed;
             Load += Form1_Load;
             Paint += Form1_Paint;
             menuStrip1.ResumeLayout(false);

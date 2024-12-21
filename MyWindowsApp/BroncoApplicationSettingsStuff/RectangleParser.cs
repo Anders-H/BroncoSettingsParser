@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using BroncoSettingsParser.ValueParsers;
 
-namespace MyWindowsApp.BroncoStuff;
+namespace MyWindowsApp.BroncoApplicationSettingsStuff;
 
 public class RectangleParser : IValueParser
 {
