@@ -32,7 +32,7 @@ public partial class Form1 : Form
         _rectangle = settings.MyRectangle;
 
         // Load user settings
-        parser = Parser.GetUserSettings(UserSettingsKey, UserSettingsName);
+        //parser = Parser.GetUserSettings(UserSettingsKey, UserSettingsName);
         raw = parser.Parse();
         _userSettings = raw.Map<UserSettings>();
         blueBackgroundToolStripMenuItem.Checked = _userSettings.BlueBackground;
@@ -64,6 +64,6 @@ public partial class Form1 : Form
         // Save user settings
         _userSettings.BlueBackground = blueBackgroundToolStripMenuItem.Checked;
         yellowForegroundToolStripMenuItem.Checked = _userSettings.YellowForeground;
-        Parser.SaveUserSettings(UserSettingsKey, UserSettingsName, _userSettings); // TODO: Add interface for serializability
+        //Parser.SaveUserSettings(UserSettingsKey, UserSettingsName, _userSettings); // TODO: Add interface for serializability
     }
 }
