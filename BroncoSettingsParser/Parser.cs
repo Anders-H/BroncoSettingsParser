@@ -1,6 +1,5 @@
-﻿using System.Text;
+using System.Text;
 using System.Text.RegularExpressions;
-using BroncoSettingsParser.Comments;
 using BroncoSettingsParser.ResponseModel;
 
 namespace BroncoSettingsParser;
@@ -8,7 +7,6 @@ namespace BroncoSettingsParser;
 public class Parser
 {
     private readonly string _source;
-    private List<string>? _rows;
     
     public Parser(FileInfo sourceFile)
     {
@@ -17,50 +15,34 @@ public class Parser
 
     public Parser(string source)
     {
+        ArgumentNullException.ThrowIfNull(source);
         _source = source;
     }
 
     public static Parser LoadSettingsFromApplicationDirectory(string filename)
     {
-        var path = new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).Directory;
-        return new Parser(new FileInfo(Path.Combine(path!.FullName, filename)));
+        return new Parser(new FileInfo(Path.Combine(Tools.ExeFolder.FullName, filename)));
     }
 
     public ParseResult Parse()
     {
-        _rows = _source.Split([Environment.NewLine], StringSplitOptions.RemoveEmptyEntries).ToList();
+        var source = RemoveComments(_source, out var unterminatedComment);
+        if (unterminatedComment)
+            return new ParseResult(Status.Failed, "Unterminated comment.", new SettingCollection());
+
+        using var reader = new StringReader(source);
         var settings = new SettingCollection();
         Setting? currentSetting = null;
         var currentValue = new StringBuilder();
-        var isInCommentScope = false;
+        var trimRegex = new Regex(@"\s+");
 
-        foreach (var row in _rows)
+        while (reader.ReadLine() is { } row)
         {
             var trimmed = row.Trim();
 
             if (string.IsNullOrWhiteSpace(trimmed))
                 continue;
 
-            trimmed = new Remover(trimmed).Remove(out var commentScope);
-
-            if (!isInCommentScope && commentScope && currentSetting != null)
-            {
-                currentValue.Append($"{trimmed} ");
-                isInCommentScope = true;
-                continue;
-            }
-            
-            if (isInCommentScope && !commentScope && currentSetting != null)
-            {
-                isInCommentScope = false;
-
-                if (ClosesCommentScope(row, out var closeIndex))
-                    trimmed = trimmed.Substring(closeIndex + 2).Trim();
-                else
-                    continue;
-            }
-
-            var trimRegex = new Regex(@"\s+");
             trimmed = trimRegex.Replace(trimmed, " ").Trim();
 
             if (string.IsNullOrWhiteSpace(trimmed))
@@ -68,7 +50,7 @@ public class Parser
 
             if (currentSetting == null)
             {
-                var beginSetting = Regex.Match(trimmed, "^<<<Begin:Setting:(.*)>>>$");
+                var beginSetting = Regex.Match(trimmed, "^<<<Begin:Setting:(.*)>>>$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
 
                 if (trimmed.LastIndexOf("<<<", StringComparison.Ordinal) > trimmed.IndexOf("<<<", StringComparison.Ordinal))
                     return new ParseResult(Status.Failed, "Opening blocks and closing blocks be alone on a row.", new SettingCollection());
@@ -98,11 +80,12 @@ public class Parser
             }
             else
             {
-                if (trimmed == "<<<End:Setting>>>")
+                if (string.Equals(trimmed, "<<<End:Setting>>>", StringComparison.OrdinalIgnoreCase))
                 {
                     var value = trimRegex.Replace(currentValue.ToString(), " ").Trim();
                     currentSetting.Value = value;
-                    settings.Set(currentSetting);
+                    if (!settings.Set(currentSetting))
+                        return new ParseResult(Status.Failed, $"Duplicate setting: {currentSetting.Name}", settings);
                     currentSetting = null;
                     currentValue.Clear();
                 }
@@ -126,20 +109,37 @@ public class Parser
             }
         }
 
+        if (currentSetting != null)
+            return new ParseResult(Status.Failed, $"Missing closing tag for setting: {currentSetting.Name}", settings);
+
         var status = settings.Count > 0 ? Status.Success : Status.NoData;
         return new ParseResult(status, "Ok.", settings);
     }
 
-    private bool ClosesCommentScope(string row, out int closeIndex)
+    private static string RemoveComments(string source, out bool unterminatedComment)
     {
-        var openIndex = row.IndexOf("/*", StringComparison.Ordinal);
-        closeIndex = row.IndexOf("*/", StringComparison.Ordinal);
+        var result = new StringBuilder(source.Length);
+        var inComment = false;
 
-        return openIndex switch
+        for (var i = 0; i < source.Length; i++)
         {
-            >= 0 when closeIndex >= 0 => openIndex > closeIndex,
-            >= 0 => false,
-            _ => closeIndex >= 0
-        };
+            if (!inComment && source[i] == '/' && i + 1 < source.Length && source[i + 1] == '*')
+            {
+                inComment = true;
+                i++;
+            }
+            else if (inComment && source[i] == '*' && i + 1 < source.Length && source[i + 1] == '/')
+            {
+                inComment = false;
+                i++;
+            }
+            else if (!inComment || source[i] is '\r' or '\n')
+            {
+                result.Append(source[i]);
+            }
+        }
+
+        unterminatedComment = inComment;
+        return result.ToString();
     }
 }

@@ -47,6 +47,8 @@ This is *not* ok:
 
 Whitespaces in names are not preserved. Whitespaces before and after the name will be removed, any whitespaces within the name (*spaces* or *tabs*) will be replaced with one space.
 
+Names and tags are compared without regard to case; values preserve their case. Duplicate setting names, missing closing tags, and unterminated block comments cause parsing to fail. LF, CRLF, and CR line endings are supported.
+
 ## Values
 
 The value of a setting is anyting between the opening and closing tag, that is not a remark. The value of the setting `MySetting` is `I am value`:

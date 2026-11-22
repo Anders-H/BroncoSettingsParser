@@ -1,5 +1,6 @@
-﻿using BroncoSettingsParser.Exceptions;
+using BroncoSettingsParser.Exceptions;
 using BroncoSettingsParser.ValueParsers;
+using System.Reflection;
 
 namespace BroncoSettingsParser.ResponseModel;
 
@@ -25,12 +26,12 @@ public class ParseResult
 
     public T Map<T>() where T : new()
     {
-        var result = new T();
-        var properties = result.GetType().GetProperties();
+        object result = new T();
+        var properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
         foreach (var propertyInfo in properties)
         {
-            if (!propertyInfo.CanWrite)
+            if (propertyInfo.SetMethod?.IsPublic != true || propertyInfo.GetIndexParameters().Length != 0)
                 continue;
 
             var propertyName = propertyInfo.Name;
@@ -51,6 +52,30 @@ public class ParseResult
             }
         }
 
-        return result;
+        return (T)result;
+    }
+
+    public T? TryGetValue<T>(string settingName)
+    {
+        var v = Settings.TryGetValue(settingName);
+
+        if (v == null)
+            return default;
+
+        if (typeof(T) == typeof(string))
+            return (T)(object)v;
+
+        var typeName = typeof(T).FullName ?? "";
+
+        try
+        {
+            var vp = _valueParsers.GetParser(typeName);
+            var typedValue = vp.Parse(v);
+            return (T)typedValue;
+        }
+        catch
+        {
+            return default;
+        }
     }
 }

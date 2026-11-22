@@ -1,4 +1,4 @@
-﻿namespace BroncoSettingsParser.ResponseModel;
+namespace BroncoSettingsParser.ResponseModel;
 
 public class SettingCollection
 {
@@ -6,7 +6,7 @@ public class SettingCollection
 
     public SettingCollection()
     {
-        _settings = new Dictionary<string, string>();
+        _settings = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
     }
 
     public int Count =>

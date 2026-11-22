@@ -6,9 +6,11 @@ A self-documenting settings parser that reads `.bronco` files and returns values
 
 ## Install
 
-Broco Settings Parser requires .NET 8.0.
+Broco Settings Parser requires .NET 10.0.
 
-`// Can't do that yet...`
+```
+dotnet add package BroncoSettingsParser
+```
 
 ## Table of contents
 
