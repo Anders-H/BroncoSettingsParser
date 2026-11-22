@@ -2,7 +2,7 @@
 
 A self-documenting settings parser that reads `.bronco` files and returns values ​​to your program.
 
-![Bronco logo](https://raw.githubusercontent.com/Anders-H/BroncoSettingsParser/refs/heads/main/bronco.jpg)
+![Bronco logo](https://raw.githubusercontent.com/Anders-H/BroncoSettingsParser/refs/heads/main/bronco10.jpg)
 
 ## Install
 
